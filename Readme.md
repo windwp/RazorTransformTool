@@ -1,9 +1,9 @@
-RazorTrasformTool
+RazorTransformTool
 ------
 
-This project help use razor syntax for trasform text like T4
+This project use razor syntax for trasform text like T4
 
-Project support  include  external dll for compiler
+Project support include external dll for compiler
 
 Sample
 ------
