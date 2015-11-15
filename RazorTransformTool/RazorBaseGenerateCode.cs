@@ -8,7 +8,7 @@ using RazorTransformLibary;
 using RazorTransformLibary.Generator;
 using RazorTransformLibary.Utils;
 
-namespace RazorTransfomTool
+namespace RazorTransformTool
 {
     [ComVisible(true)]
     [Guid("C3AA784D-84FC-45F2-B757-5CC7B53A9FF0")]

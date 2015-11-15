@@ -7,8 +7,8 @@
     <ProjectGuid>{C3AA784D-84FC-45F2-B757-5CC7B53A9FF0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RazorTransfomTool</RootNamespace>
-    <AssemblyName>RazorTransfomTool</AssemblyName>
+    <RootNamespace>RazorTransformTool</RootNamespace>
+    <AssemblyName>RazorTransformTool</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

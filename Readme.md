@@ -5,6 +5,11 @@ This project help use razor syntax for trasform text like T4
 
 Project support  include  external dll for compiler
 
+Sample
+------
+
+![Setting CustomTool](http://i.imgur.com/1ae7AN3.jpg)
+
 Using Custom Tool for visual studio
 -------
 
@@ -16,13 +21,16 @@ Run install.reg for include custom tool information
 
 Restart visual studio 
 
-Goto test.cstt(razor syntax like .cshtml file) and set custom tool is RazorTransformTool
 
+Goto helloword.cshtml(razor syntax like .cshtml file) and set custom tool is RazorTransformTool
+![Setting CustomTool](http://i.imgur.com/MoGYq3e.png)
 Using Console Application
 -------
 
-Build project RazorTransformConsole
+Start project RazorTransformConsole
+
 type command razor template\test.cshtml for transform code
+
 
 HeaderConfig
 ------
@@ -32,6 +40,7 @@ OutputFile: out put file path for generate code. When using in custom tool It wi
 ---
 
 /*config
+
      OutPutFile=Out\data.html
      InputDllFolder=lib
 

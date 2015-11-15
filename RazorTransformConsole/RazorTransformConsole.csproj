@@ -67,6 +67,8 @@
     <None Include="packages.config" />
     <None Include="Template\Test.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Test.cs</LastGenOutput>
     </None>
     <None Include="Template\TestDatabase.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -77,6 +79,9 @@
       <Project>{b2044cf6-671e-48d8-8e63-7f0a6b0ab68f}</Project>
       <Name>RazorTransformLibary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

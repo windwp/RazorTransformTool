@@ -1,0 +1,14 @@
+﻿/*config
+    OutPutFile=.xml
+*/
+@{
+	var HelloText="HelloWordRazorTransformTool";
+}
+
+<root>
+    <message>@HelloText</message>
+    @for (int i = 0; i < 10; i++)
+    {
+        <item>@R("item"+i)</item>	
+    }
+</root>
