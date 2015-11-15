@@ -32,9 +32,9 @@ namespace RazorTransformLibary.Data
         /// <param name="filePathOrContent"></param>
         /// <param name="isFilePath"></param>
         /// <returns></returns>
-        public static FileTemplateSetting LoadFileTemplateSetting(string filePathOrContent,bool isFilePath=true)
+        public static RazorFileTemplate LoadFileTemplate(string filePathOrContent,bool isFilePath=true)
         {
-            var setting = new FileTemplateSetting();
+            var setting = new RazorFileTemplate();
             var fileContent = filePathOrContent;
             if (isFilePath)
             {
@@ -56,6 +56,12 @@ namespace RazorTransformLibary.Data
                     Group groupDataObj = matchResults.Groups[2];
                     switch (groupNameObj.Value.Trim())
                     {
+                        case "IsRun":
+                            setting.IsRun = groupDataObj.Value.Trim()=="true"||groupDataObj.Value.Trim()=="1";
+                            break;
+                        case "IsHeader":
+                            setting.IsHeader = groupDataObj.Value.Trim() == "true" || groupDataObj.Value.Trim() == "1";
+                            break;
                         case "Name":
                             setting.Name = groupDataObj.Value.Trim();
                             break;

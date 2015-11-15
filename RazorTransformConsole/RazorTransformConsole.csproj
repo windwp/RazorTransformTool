@@ -67,8 +67,6 @@
     <None Include="packages.config" />
     <None Include="Template\Test.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Test.cs</LastGenOutput>
     </None>
     <None Include="Template\TestDatabase.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

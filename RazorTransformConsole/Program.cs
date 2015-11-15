@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
@@ -9,7 +8,8 @@ using RazorGenConsole.Command;
 using Tharga.Toolkit.Console;
 using Tharga.Toolkit.Console.Command;
 using Tharga.Toolkit.Console.Command.Base;
-namespace RazorGenConsole
+
+namespace RazorTransformConsole
 {
     public class Program
     {

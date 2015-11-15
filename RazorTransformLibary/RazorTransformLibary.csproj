@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\FileTemplateSetting.cs" />
+    <Compile Include="Data\RazorFileTemplate.cs" />
     <Compile Include="Generator\IBaseGenerator.cs" />
     <Compile Include="Generator\RazorGenerator.cs" />
     <Compile Include="Data\FileTemplateManager.cs" />

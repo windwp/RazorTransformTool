@@ -1,14 +1,12 @@
 ﻿/*config
     OutPutFile=.cs
 	InputDllFolder=D:\workspace\project\csharp\RazorTransformTool\compilerlibary
+	IsHeader=1
 */
 @{
     var nameController = "AccountController";
     var listAction = new[] {"ABBC", "CCBBA", "CCCD","EEFF","hell"};
 }
-/*
-    Auto generate code
-*/
 @using Microsoft.SqlServer.Management.Common
 using System;
 using System.Text;

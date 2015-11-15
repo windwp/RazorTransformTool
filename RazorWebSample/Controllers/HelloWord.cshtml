@@ -4,11 +4,19 @@
 @{
 	var HelloText="HelloWordRazorTransformTool";
 }
+@functions{
 
+    public string SampleMethod()
+    {
+        return "Sample";
+    }
+
+}
 <root>
     <message>@HelloText</message>
+    <sample>@SampleMethod()</sample>
     @for (int i = 0; i < 10; i++)
     {
-        <item>@R("item"+i)</item>	
+    <item>@R("item"+i)</item>	
     }
 </root>
