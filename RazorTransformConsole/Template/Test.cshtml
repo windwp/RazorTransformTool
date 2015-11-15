@@ -1,0 +1,37 @@
+﻿/*config
+    OutPutFile=Out\data.cs
+
+*/
+@inherits RazorTransformLibary.Generator.CustomTemplateBase<object>
+@{
+    var nameController = "AccountController";
+    var listAction = new[] {"ABBC", "CCBBA", "CCCD"};
+}
+/*
+Auto generate code
+
+*/
+using System;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace
+{
+    [Authorize]
+    public class @R(nameController) : Controller
+    {
+        @*AccountController *@
+        public @R(nameController) ()
+        {
+        }
+
+        @foreach (var action in listAction)
+        {
+            @WF(2,string.Format("public ActionResult {0}()",action))
+            @WF(2,"{")
+            @WF(2,"}")
+        }
+    }
+}
