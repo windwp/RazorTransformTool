@@ -8,7 +8,9 @@ Project support  include  external dll for compiler
 Sample
 ------
 
-![Setting CustomTool](http://i.imgur.com/1ae7AN3.jpg)
+![Code Folder](http://i.imgur.com/3hDEHsX.jpg)
+
+![SourceCode generate](http://i.imgur.com/1ae7AN3.jpg)
 
 Using Custom Tool for visual studio
 -------
@@ -35,7 +37,8 @@ type command razor template\test.cshtml for transform code
 HeaderConfig
 ------
 InputDllFolder : Folder contain dll for compiler code
-OutputFile: out put file path for generate code. When using in custom tool It will only set extension in generate code
+
+OutputFile:  file path for save file using in console application. When using in custom tool It will only set extension in generate code
 
 ---
 
