@@ -89,10 +89,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Controllers\HelloWord.xml">
+    <Content Include="Controllers\HelloWorld.xml">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>HelloWord.cshtml</DependentUpon>
+      <DependentUpon>HelloWorld.cshtml</DependentUpon>
     </Content>
     <Content Include="Controllers\TestDatabase.html">
       <AutoGen>True</AutoGen>
@@ -104,10 +104,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\Test.cs">
+    <Compile Include="Controllers\Test1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Test.cstt</DependentUpon>
+      <DependentUpon>Test.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -117,13 +117,13 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <None Include="Controllers\HelloWord.cshtml">
+    <None Include="Controllers\HelloWorld.cshtml">
       <Generator>RazorTransformTool</Generator>
-      <LastGenOutput>HelloWord.xml</LastGenOutput>
+      <LastGenOutput>HelloWorld.xml</LastGenOutput>
     </None>
-    <None Include="Controllers\Test.cstt">
+    <None Include="Controllers\Test.cshtml">
       <Generator>RazorTransformTool</Generator>
-      <LastGenOutput>Test.cs</LastGenOutput>
+      <LastGenOutput>Test1.cs</LastGenOutput>
     </None>
     <None Include="Controllers\TestDatabase.cstt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

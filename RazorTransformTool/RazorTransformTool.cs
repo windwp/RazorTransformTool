@@ -7,19 +7,25 @@ using System.Security.Permissions;
 using System.Security.Policy;
 using System.Text;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using RazorEngine.Templating;
 using RazorTransformLibary;
 using RazorTransformLibary.Generator;
 using RazorTransformLibary.Utils;
 
-namespace RazorTransformTool
+namespace RazorTransform.Tool
 {
     [ComVisible(true)]
     [Guid("C3AA784D-84FC-45F2-B757-5CC7B53A9FF0")]
-    //[Microsoft.VisualStudio.Shell.CodeGeneratorRegistration(typeof(RazorBaseGenerateCode), "RazorTransformTool", "FAE04EC1-301F-11D3-BF4B-00C04F79EFBC")]
-    public class RazorBaseGenerateCode : IVsSingleFileGenerator
+    [CodeGeneratorRegistration(typeof(RazorTransformTool), "Razor Transform Tool", "FAE04EC1-301F-11D3-BF4B-00C04F79EFBC",GeneratesDesignTimeSource = true)]
+    [ProvideObject(typeof(RazorTransformTool), RegisterUsing = RegistrationMethod.CodeBase)]
+    public class RazorTransformTool : IVsSingleFileGenerator
     {
+#pragma warning disable 0414
+        //The name of this generator (use for 'Custom Tool' property of project item)
+        internal static string name = "RazorTransformTool";
+#pragma warning restore 0414
         private static AppDomain _domain;
         private static void SwitchDomainForRazorEngine()
         {

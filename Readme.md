@@ -1,7 +1,7 @@
 RazorTransformTool
 ------
 
-This project use razor syntax for trasform text like T4
+This project use razor syntax for transform text like T4
 
 Project support include external dll for compiler
 
@@ -10,7 +10,7 @@ Sample
 
 ![Code Folder](http://i.imgur.com/3hDEHsX.jpg)
 
-![SourceCode generate](http://i.imgur.com/1ae7AN3.jpg)
+![SourceCode generate](http://i.imgur.com/aQD1qoT.gif)
 
 Using Custom Tool for visual studio
 -------
@@ -40,6 +40,7 @@ InputDllFolder : Folder contain dll for compiler code
 
 OutputFile:  file path for save file using in console application. When using in custom tool It will only set extension in generate code
 
+IsHeader=1 : auto generate header in result file
 ---
 
 /*config
@@ -56,7 +57,7 @@ Some Helper Function in razor Syntax
 ------
 
 ---
-
+    @R("Data");// print raw data
     @R2();// write @ for generate code cshtml
     @WF(2,content,data)// write string format with 2 \t characters in start of line
 

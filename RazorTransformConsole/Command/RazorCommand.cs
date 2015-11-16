@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
-using RazorEngine;
 using RazorEngine.Templating;
 using RazorTransformLibary.Generator;
 using RazorTransformLibary.Utils;
 using Tharga.Toolkit.Console.Command.Base;
 
-namespace RazorGenConsole.Command
+namespace RazorTransformConsole.Command
 {
     public class RazorCommand : ActionCommandBase
     {
