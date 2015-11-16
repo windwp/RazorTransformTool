@@ -1,0 +1,20 @@
+Windows Registry Editor Version 5.00
+ 
+; TODO: Replace with your GUID
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\VisualStudio\14.0_Config\CLSID\{C3AA784D-84FC-45F2-B757-5CC7B53A9FF0}]
+"InprocServer32"="C:\\Windows\\System32\\mscoree.dll"
+"ThreadingModel"="Both"
+; TODO: Replace with your class
+"Class"="RazorVSIX.RazorTransformTool"
+; TODO: Replace with your assembly
+"Assembly"="RazorTransformTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=19510d8c2f4da3a5"
+; TODO: Replace with your dll file
+"CodeBase"="D:\\workspace\\project\\csharp\\RazorTransformTool\\RazorTransformTool\\bin\\Release\\RazorTransformTool.dll"
+
+; TODO: Replace with your tool name
+[HKEY_CURRENT_USER\Software\Microsoft\VisualStudio\14.0_Config\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\RazorTransformTool]
+; TODO: Replace with your GUID
+"CLSID"="{C3AA784D-84FC-45F2-B757-5CC7B53A9FF0}"
+"GeneratesDesignTimeSource"=dword:00000001
+; TODO: Replace with your description
+@="Razor Transform Tool"

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="RazorVSIX.Le Trieu.55c6a15c-14b2-4121-b388-bdea7ba53d97" Version="1.0" Language="en-US" Publisher="Le Trieu" />
+    <DisplayName>RazorTransformTool</DisplayName>
+    <Description xml:space="preserve">This project use razor syntax for trasform text like T4</Description>
+    <MoreInfo>https://github.com/windwp/RazorTransformTool</MoreInfo>
+    <License>license.txt</License>
+    <Icon>icon.png</Icon>
+    <PreviewImage>Preview.gif</PreviewImage>
+    <Tags>razor,t4,code generated,</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[14.0,15.0)" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+  </Assets>
+  <Content>
+    <VsPackage>|%CurrentProject%|</VsPackage>
+  </Content>
+</PackageManifest>
