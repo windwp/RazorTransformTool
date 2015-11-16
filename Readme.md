@@ -12,20 +12,20 @@ Sample
 
 ![SourceCode generate](http://i.imgur.com/aQD1qoT.gif)
 
-Using Custom Tool for visual studio
+Using CustomTool for visual studio
 -------
 
-Build project RazorTransform Tool
+Install RazorTransformTool extensions
 
-Run command in command.bat with Administrator user for register dll 
-
-Run install.reg for include custom tool information
+[Install](https://visualstudiogallery.msdn.microsoft.com/68d81c9e-3e07-47bd-a0ec-27ab4a80ef02)
 
 Restart visual studio 
 
+Choose a template file(.cshtml) then open Properties Panel and set custom tool to RazorTransformTool
 
-Goto helloword.cshtml(razor syntax like .cshtml file) and set custom tool is RazorTransformTool
 ![Setting CustomTool](http://i.imgur.com/MoGYq3e.png)
+
+
 Using Console Application
 -------
 
