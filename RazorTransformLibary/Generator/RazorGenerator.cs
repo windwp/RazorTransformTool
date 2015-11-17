@@ -125,7 +125,7 @@ namespace RazorTransformLibary.Generator
         //    _razorFileTemplate = razorFileTemplate;
         //}
 
-        public string RenderPartial(string partialName, object obj)
+        public string Partial(string partialName, object obj)
         {
             var path = partialName;
             if (this.ViewBag.InputFolder != null)

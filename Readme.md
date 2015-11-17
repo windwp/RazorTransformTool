@@ -40,13 +40,19 @@ InputDllFolder : Folder contain dll for compiler code
 
 OutputFile:  file path for save file using in console application. When using in custom tool It will only set extension in generate code
 
+ListIncludeFile: list of file will be include in top of template file before compiler
+
 IsHeader=1 : auto generate header in result file
+
+
+Example header
 ---
 
 /*config
 
      OutPutFile=Out\data.html
      InputDllFolder=lib
+     ListIncludeFile=_include.cshtml,_include2.cshtml
 
 */
 
@@ -57,6 +63,8 @@ Some Helper Function in razor Syntax
 ------
 
 ---
+
+    @Partial("Partial.cshtml",model)// render partial with model
     @R("Data");// print raw data
     @R2();// write @ for generate code cshtml
     @WF(2,content,data)// write string format with 2 \t characters in start of line
