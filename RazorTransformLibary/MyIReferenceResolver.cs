@@ -30,6 +30,7 @@ namespace RazorTransformLibary
             yield return CompilerReference.From(FindLoaded(loadedAssemblies, "System.dll"));
             yield return CompilerReference.From(FindLoaded(loadedAssemblies, "System.Core.dll"));
             yield return CompilerReference.From(FindLoaded(loadedAssemblies, "System.Web.Razor.dll"));
+            yield return CompilerReference.From(FindLoaded(loadedAssemblies, "Microsoft.CSharp.dll"));
             yield return CompilerReference.From(FindLoaded(loadedAssemblies, "RazorEngine.dll"));
             yield return CompilerReference.From(FindLoaded(loadedAssemblies, "RazorTransformLibary.dll"));
             yield return CompilerReference.From(typeof(MyIReferenceResolver).Assembly); // Assembly

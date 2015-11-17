@@ -9,6 +9,18 @@ namespace RazorTransformLibary.Utils
 {
     public class FileUtils
     {
+        /// <summary>
+        /// Get Partial Path 
+        /// <para>return childpath if childpath contains drive letter</para>
+        /// </summary>
+        /// <param name="parentfolder"></param>
+        /// <param name="childpath"></param>
+        /// <returns></returns>
+        public static string GetPartialPath(string parentfolder, string childpath)
+        {
+            if (childpath.Contains(":/")) return childpath;
+            return Path.Combine(parentfolder, childpath);
+        }
 
         public static void ReplaceInFile(string filePath, string searchText, string replaceText)
         {

@@ -1,5 +1,7 @@
 using System;
 using System.Globalization;
+using System.IO;
+using System.Text;
 using RazorEngine;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
@@ -22,32 +24,36 @@ namespace RazorTransformLibary.Generator
             + "//------------------------------------------------------------------------------\r\n";
         private string _filePath;
         private object _modeldata;
-        private readonly bool _isPath;
         private ITemplateSource _templateSource;
         private ITemplateKey _templateKey;
         private IRazorEngineService _engine;
         public RazorFileTemplate RazorTemplate { get; private set; }
         private string _result;
         private string _fileContent;
+        private DynamicViewBag _viewBag;
         public RazorGenerator()
         {
 
         }
-        public RazorGenerator(string filePathOrCotent, object modeldata, bool isPath = true)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath">path of file template</param>
+        /// <param name="templateContent">template content(if it is null engine will read data in filepath</param>
+        /// <param name="modeldata"></param>
+        /// 
+        public RazorGenerator(string filePath, string templateContent, object modeldata)
         {
-            _filePath = _fileContent = filePathOrCotent;
+            _filePath = _fileContent = filePath;
+            _fileContent = templateContent;
             _modeldata = modeldata;
-            _isPath = isPath;
         }
 
         public void Init()
         {
-            if (_isPath)
-            {
-                _fileContent = FileUtils.ReadFileContent(_filePath);
-            }
+
             //load file setting with config in header
-            RazorTemplate = FileTemplateManager.LoadFileTemplate(_fileContent, false);
+            RazorTemplate = FileTemplateManager.LoadFileTemplate(_filePath, _fileContent);
             //create config for razor engine
             //http://antaris.github.io/RazorEngine/
             var config = new TemplateServiceConfiguration();
@@ -59,10 +65,20 @@ namespace RazorTransformLibary.Generator
             config.ReferenceResolver = referenceResolver;
             _engine = RazorEngineService.Create(config);
             _templateKey = Engine.Razor.GetKey(MyTemplateKey.MAIN_TEMPLATE);
+            //setup viewbag input Folder for render partial
+            _viewBag = new DynamicViewBag();
+            _viewBag.AddValue("InputFolder", RazorTemplate.InputFolder);
             //check template is compile
             if (!_engine.IsTemplateCached(_templateKey, null))
             {
+                //add include template file
+                var includeTemplate = new StringBuilder();
+                foreach (var filepath in RazorTemplate.ListImportFile)
+                {
+                    includeTemplate.Append(FileUtils.ReadFileContent(filepath));
+                }
                 var data = RazorTemplate.TemplateData;
+                data = includeTemplate.ToString() + data;
                 _templateSource = new LoadedTemplateSource(data);
                 _engine.AddTemplate(_templateKey, _templateSource);
                 _engine.Compile(_templateKey, _modeldata.GetType());
@@ -71,7 +87,7 @@ namespace RazorTransformLibary.Generator
 
         public string Render()
         {
-            _result = _engine.Run(_templateKey, _modeldata.GetType(), _modeldata).Trim();
+            _result = _engine.Run(_templateKey, _modeldata.GetType(), _modeldata, _viewBag).Trim();
             //put header for result code
             if (RazorTemplate.IsHeader)
             {
@@ -84,7 +100,7 @@ namespace RazorTransformLibary.Generator
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(RazorTemplate.OutPutFile))
+                if (!string.IsNullOrEmpty(RazorTemplate.OutPutFile))
                 {
                     FileUtils.WriteToFile(RazorTemplate.OutPutFile, _result.Trim());
                 }
@@ -101,6 +117,51 @@ namespace RazorTransformLibary.Generator
     public class CustomTemplateBase<X> : TemplateBase<X>
     {
         private string _tabString = "\t";
+        //private IRazorEngineService _engine;
+        //private RazorFileTemplate _razorFileTemplate;
+        //public CustomTemplateBase(IRazorEngineService engine, RazorFileTemplate razorFileTemplate) : base()
+        //{
+        //    _engine = engine;
+        //    _razorFileTemplate = razorFileTemplate;
+        //}
+
+        public string RenderPartial(string partialName, object obj)
+        {
+            var path = partialName;
+            if (this.ViewBag.InputFolder != null)
+            {
+                path = FileUtils.GetPartialPath(this.ViewBag.InputFolder, path);
+            }
+            if (File.Exists(path))
+            {
+                try
+                {
+                    //compile partial template
+                    var fileContent = FileUtils.ReadFileContent(path);
+                    var templateKey=Razor.GetKey(partialName);
+                    if (!Razor.IsTemplateCached(templateKey, null))
+                    {
+                        var templateSource = new LoadedTemplateSource(fileContent);
+                        Razor.AddTemplate(templateKey, templateSource);
+                        Razor.Compile(templateKey, obj.GetType());
+                    }
+                    Include(partialName, obj, null).WriteTo(this.CurrentWriter);
+                    return string.Empty;
+                }
+                catch (TemplateCompilationException tex)
+                {
+                    return MRazorUtil.GetError(tex);
+                }
+                catch (Exception ex)
+                {
+                    return ex.Message;
+                }
+            }
+            else
+            {
+                return "Partial file Not Found " + path;
+            }
+        }
 
         /// <summary>
         /// Simple write @ for .cshtml file

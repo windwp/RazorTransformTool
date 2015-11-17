@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using RazorEngine.Templating;
 using RazorTransformLibary.Generator;
@@ -9,17 +10,17 @@ namespace RazorTransformConsole.Command
 {
     public class RazorCommand : ActionCommandBase
     {
-        public RazorCommand() : base("Razor", "generate")
+        public RazorCommand() : base("Razor", "Generate code")
         {
 
         }
-        public override async Task<bool> InvokeAsync(string paramList)
+        public override  Task<bool> InvokeAsync(string paramList)
         {
             if (File.Exists(paramList.Trim()))
             {
                 try
                 {
-                    var generator = new RazorGenerator(paramList.Trim(), new object());
+                    var generator = new RazorGenerator(paramList.Trim(),string.Empty, new object());
                     generator.Init();
                     var result = generator.Render();
                     generator.OutPut();
@@ -27,7 +28,11 @@ namespace RazorTransformConsole.Command
                 }
                 catch (TemplateCompilationException exception)
                 {
-                   OutputError(MRazorUtil.GetError(exception));
+                    OutputError(MRazorUtil.GetError(exception));
+                }
+                catch (Exception ex)
+                {
+                    OutputError("Error {0}", ex.Message);
                 }
             }
             else
@@ -36,7 +41,7 @@ namespace RazorTransformConsole.Command
 
             }
            
-            return true;
+            return Task.FromResult(true);
         }
 
 

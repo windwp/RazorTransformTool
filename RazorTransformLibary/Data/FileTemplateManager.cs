@@ -7,14 +7,14 @@ namespace RazorTransformLibary.Data
 {
     class FileTemplateManager
     {
-       
-        private static string _headerpattern = @"/\*config([^(*/)]*)\*/";
+
+        private static string _headerpattern = @"/\*config(.*?)\*/";
         public static string LoadFileContent(string filePathOrContent, bool isFilePath = true)
         {
             var data = filePathOrContent;
             if (isFilePath)
             {
-               data = FileUtils.ReadFileContent(filePathOrContent);
+                data = FileUtils.ReadFileContent(filePathOrContent);
             }
             //delete header comment
             return Regex.Replace(data, _headerpattern, string.Empty, RegexOptions.IgnorePatternWhitespace);
@@ -22,31 +22,32 @@ namespace RazorTransformLibary.Data
 
         /// <summary>
         /// Read config Header of file
-        ///  Sample
-        ///  /*config
-        ///     Name=ABC;
-        ///     OutPutFile=out/file.cs
-        ///     InputDllFolder=./lib/
+        /// Sample<para />.
+        ///  /*config<para />.
+        ///     Name=ABC;<para />.
+        ///     OutPutFile=out/file.cs<para />.
+        ///     InputDllFolder=./lib/<para />.
         ///  */
         /// </summary>
-        /// <param name="filePathOrContent"></param>
-        /// <param name="isFilePath"></param>
+        /// <param name="filePath">path of file template</param>
+        /// <param name="templateContent">content of file template</param>
+        /// <param name="isReload">reload file content</param>
         /// <returns></returns>
-        public static RazorFileTemplate LoadFileTemplate(string filePathOrContent,bool isFilePath=true)
+        public static RazorFileTemplate LoadFileTemplate(string filePath,string templateContent,bool isReload=false)
         {
             var setting = new RazorFileTemplate();
-            var fileContent = filePathOrContent;
-            if (isFilePath)
+            var fileInfo = new FileInfo(filePath);
+            setting.Name = fileInfo.Name.Replace("." + fileInfo.Extension, "");
+            setting.InputFilePath = filePath;
+            if (string.IsNullOrEmpty(templateContent)||isReload)
             {
-                var fileInfo = new FileInfo(filePathOrContent);
-                setting.Name = fileInfo.Name.Replace("." + fileInfo.Extension, "");
-                setting.FilePath = filePathOrContent;
-                fileContent = FileUtils.ReadFileContent(filePathOrContent);
+                templateContent = FileUtils.ReadFileContent(filePath);
             }
-            //read header setting file
-            var fileHeaderSetting = Regex.Match(fileContent,_headerpattern, RegexOptions.IgnorePatternWhitespace).Groups[1].Value;
+            
             try
             {
+                //read header setting file
+                var fileHeaderSetting = Regex.Match(templateContent, _headerpattern, RegexOptions.Singleline | RegexOptions.Multiline).Groups[1].Value;
                 fileHeaderSetting = fileHeaderSetting.Replace("\r\t", "\r\n\t");
                 Regex regexObj = new Regex("(.*)=(.*)", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
                 Match matchResults = regexObj.Match(fileHeaderSetting);
@@ -54,22 +55,37 @@ namespace RazorTransformLibary.Data
                 {
                     Group groupNameObj = matchResults.Groups[1];
                     Group groupDataObj = matchResults.Groups[2];
-                    switch (groupNameObj.Value.Trim())
+                    switch (groupNameObj.Value.Trim().ToLower())
                     {
-                        case "IsRun":
-                            setting.IsRun = groupDataObj.Value.Trim()=="true"||groupDataObj.Value.Trim()=="1";
+                        case "isrun":
+                            setting.IsRun = groupDataObj.Value.Trim() == "true" || groupDataObj.Value.Trim() == "1";
                             break;
-                        case "IsHeader":
+                        case "isheader":
                             setting.IsHeader = groupDataObj.Value.Trim() == "true" || groupDataObj.Value.Trim() == "1";
                             break;
-                        case "Name":
+                        case "name":
                             setting.Name = groupDataObj.Value.Trim();
                             break;
-                        case "OutPutFile":
+                        case "outputfile":
                             setting.OutPutFile = groupDataObj.Value.Trim();
                             break;
-                        case "InputDllFolder":
+                        case "inputdllfolder":
                             setting.InputDllFolder = groupDataObj.Value.Trim();
+                            break;
+                        case "listincludefile":
+                            var listFile = groupDataObj.Value.Trim().Split(',');
+                            foreach (var path in listFile)
+                            {
+                                var importFilePath = FileUtils.GetPartialPath(setting.InputFolder, path);
+                                if (File.Exists(importFilePath))
+                                {
+                                    setting.ListImportFile.Add(importFilePath);
+                                }
+                                else
+                                {
+                                    throw new FileNotFoundException("Include file not found at :" + importFilePath, importFilePath);
+                                }
+                            }
                             break;
                         default:
                             setting.CustomVariables.Add(groupNameObj.Value.Trim(), groupDataObj.Value.Trim());
@@ -78,15 +94,15 @@ namespace RazorTransformLibary.Data
                     matchResults = matchResults.NextMatch();
                 }
             }
-            catch (ArgumentException )
+            catch (ArgumentException)
             {
                 // Syntax error in the regular expression
             }
-            fileContent = Regex.Replace(fileContent, _headerpattern, string.Empty, RegexOptions.IgnorePatternWhitespace);
-            setting.TemplateData = fileContent;
+            templateContent = Regex.Replace(templateContent, _headerpattern, string.Empty, RegexOptions.Singleline | RegexOptions.Multiline);
+            setting.TemplateData = templateContent;
             return setting;
         }
-     
+
 
     }
 }

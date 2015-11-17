@@ -72,7 +72,7 @@ namespace RazorVSIX
                     model.FileName = info.Name;
                 }
          
-                var generator = new RazorGenerator(wszInputFilePath, model);
+                var generator = new RazorGenerator(wszInputFilePath,bstrInputFileContents, model);
                 generator.Init();
                 //get extension from header file
                 if (!string.IsNullOrEmpty(generator.RazorTemplate.OutPutExtension))

@@ -21,7 +21,9 @@ namespace RazorTransformConsole
             if (args.Length == 0) SwitchDomainForRazorEngine();
             var console = new ClientConsole();
             var command = new RootCommand(console);
-            command.RegisterCommand(new RazorCommand());
+            var razorcmd=new RazorCommand();
+            command.RegisterCommand(razorcmd);
+            command.RegisterCommand(new TestCaseCommand(razorcmd));
             var commandEngine = new CommandEngine(command);
             commandEngine.Run(args);
         }

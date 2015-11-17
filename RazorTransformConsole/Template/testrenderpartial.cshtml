@@ -1,0 +1,12 @@
+﻿/*config
+    OutputFile=Out\testrenderparital.txt
+*/
+
+@{
+    
+    var partialmodel = new {Name = "Cortana",LastName = "Lady"};
+}
+
+@RenderPartial("_partial.cshtml",partialmodel)
+
+@RenderPartial("_partial.cshtml",partialmodel)
