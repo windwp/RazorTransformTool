@@ -23,7 +23,6 @@ namespace RazorTransformLibary.Utils
                 errorStrBuilder.AppendLine("################");
             }
 
-            errorStrBuilder.AppendFormat("View Log file to get full source code");
 
             return errorStrBuilder.ToString();
         }

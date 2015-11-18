@@ -106,8 +106,16 @@ namespace RazorVSIX
             }
             catch (Exception ex)
             {
-                var message = ex.Message;
-                resultBytes = Encoding.UTF8.GetBytes(message);
+                var messageBuilder =new StringBuilder( ex.Message);
+                messageBuilder.AppendLine();
+                if (ex.Source != null) messageBuilder.Append(ex.Source);
+                messageBuilder.Append(ex.StackTrace);
+                if (ex.InnerException != null)
+                {
+                    messageBuilder.AppendLine();
+                    messageBuilder.Append(ex.InnerException.Message + ex.InnerException.StackTrace);
+                }
+                resultBytes = Encoding.UTF8.GetBytes(messageBuilder.ToString());
                 int outputLength = resultBytes.Length;
                 rgbOutputFileContents[0] = Marshal.AllocCoTaskMem(outputLength);
                 Marshal.Copy(resultBytes, 0, rgbOutputFileContents[0], outputLength);
