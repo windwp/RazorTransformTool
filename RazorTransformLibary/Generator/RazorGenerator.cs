@@ -150,11 +150,11 @@ namespace RazorTransformLibary.Generator
                 }
                 catch (TemplateCompilationException tex)
                 {
-                    return MRazorUtil.GetError(tex);
+                    return string.Format("Partial Render Error{0}\r\n{1}", path, MRazorUtil.GetError(tex));
                 }
                 catch (Exception ex)
                 {
-                    return ex.Message;
+                    return string.Format("Partial Render Error{0}\r\n{1}", path, ex.Message);
                 }
             }
             else
@@ -224,12 +224,19 @@ namespace RazorTransformLibary.Generator
 
         public string WF(int num, string str, params string[] value)
         {
-            string result = "";
-            for (var i = 0; i < num; i++)
+            try
             {
-                result += _tabString;
+                string result = "";
+                for (var i = 0; i < num; i++)
+                {
+                    result += _tabString;
+                }
+                return result + string.Format(str, value) + Environment.NewLine;
             }
-            return result + string.Format(str, value) + Environment.NewLine;
+            catch (Exception)
+            {
+                throw new Exception(string.Format("params string input not engough : [ {0} ]", str));
+            }
         }
 
         public string ToTitleCase(string str)

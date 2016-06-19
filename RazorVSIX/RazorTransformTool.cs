@@ -6,6 +6,7 @@ using System.Security;
 using System.Security.Permissions;
 using System.Security.Policy;
 using System.Text;
+using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -13,7 +14,10 @@ using RazorEngine.Templating;
 using RazorTransformLibary;
 using RazorTransformLibary.Generator;
 using RazorTransformLibary.Utils;
+using TransformCodeGenerator;
 using VSLangProj80;
+using IServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
+
 namespace RazorVSIX
 {
     [ComVisible(true)]
@@ -56,6 +60,7 @@ namespace RazorVSIX
             return VSConstants.S_OK;
         }
 
+        private readonly Project project;
         public int Generate(string wszInputFilePath, string bstrInputFileContents, string wszDefaultNamespace,
             IntPtr[] rgbOutputFileContents, out uint pcbOutput, IVsGeneratorProgress pGenerateProgress)
         {
@@ -71,7 +76,33 @@ namespace RazorVSIX
                 {
                     model.FileName = info.Name;
                 }
-         
+                int iFound;
+                uint itemId;
+                ProjectItem item;
+                VSDOCUMENTPRIORITY[] pdwPriority = new VSDOCUMENTPRIORITY[1];
+
+                // obtain a reference to the current project as an IVsProject type
+                IVsProject vsProject = VsHelper.ToVsProject(project);
+                // this locates, and returns a handle to our source file, as a ProjectItem
+                vsProject.IsDocumentInProject(wszInputFilePath, out iFound, pdwPriority, out itemId);
+
+                // if our source file was found in the project (which it should have been)
+                if (iFound != 0 && itemId != 0)
+                {
+                    IServiceProvider oleSp;
+                    vsProject.GetItemContext(itemId, out oleSp);
+                    if (oleSp != null)
+                    {
+                        ServiceProvider sp = new ServiceProvider(oleSp);
+                        // convert our handle to a ProjectItem
+                        item = sp.GetService(typeof(ProjectItem)) as ProjectItem;
+                    }
+                    else
+                        throw new ApplicationException("Unable to retrieve Visual Studio ProjectItem");
+                }
+                else
+                    throw new ApplicationException("Unable to retrieve Visual Studio ProjectItem");
+
                 var generator = new RazorGenerator(wszInputFilePath,bstrInputFileContents, model);
                 generator.Init();
                 //get extension from header file
